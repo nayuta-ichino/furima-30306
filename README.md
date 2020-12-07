@@ -1,24 +1,67 @@
-# README
+# テーブル設計
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## usersテーブル
+| Column    | Type    | Option                    |
+| --------- | ------- | ------------------------- |
+| nickname  | string  | null: false               |
+| email     | string  | null: false, unique: true |
+| password  | string  | null: false, unique: true |
+| name      | string  | null: false               |
+| name_kana | string  | null: false               |
+| birthday  | integer | null: false               |
 
-Things you may want to cover:
+### Association
+- has_many :items
+- has_many :buy_records
+- belongs_to :addresses
+- belongs_to :birthday
 
-* Ruby version
 
-* System dependencies
+## itemsテーブル
+| Column           | Type       | Option                   |
+| ---------------- | ---------- | ------------------------ |
+| image            |            | ActiveStorageで実装      |
+| item_name        | string     | null: false              |
+| item_info        | string     | null: false              |
+| price            | integer    | null: false              |
+| user_id          | references | null: false, foreign_key | 
+| category         | integer    | null: false              |
+| item_status      | integer    | null: false              |
+| shipping_cost    | integer    | null: false              |
+| by_prefecture_id | integer    | null: false              |
+| shipping_day     | integer    | null: false              |
 
-* Configuration
+### Association
+- belongs_to :user
+- belongs_to :category
+- belongs_to :item_status
+- belongs_to :shipping_cost
+- belongs_to :prefecture
+- belongs_to :shipping_day
 
-* Database creation
 
-* Database initialization
+## addressesテーブル
+| Column        | Type       | Option                        |
+| ------------- | ---------- | ----------------------------- |
+| postcode      | integer    | null: false                   |
+| city          | string     | null: false                   |
+| block         | integer    | null: false                   |
+| building      | string     |                               |
+| phone_number  | integer    | null: false, unique: true     |
+| user_id       | references | null: false, foreign_key: true|
+| prefecture_id | integer    | null: false                   |
 
-* How to run the test suite
+### Association
+- belongs_to :user
+- belongs_to :prefecture
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
+## buy_recordsテーブル
+| Column  | Type       | Option                         |
+|-------- | ---------- | ------------------------------ |
+| item_id | references | null: false, foreign_key: true |
+| user_id | references | null: false, foreign_key: true |
 
-* ...
+### Association
+- belongs_to :item
+- belongs_to :user

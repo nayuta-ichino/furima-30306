@@ -5,7 +5,7 @@
 | ------------------ | ------- | ------------------------- |
 | nickname           | string  | null: false               |
 | email              | string  | null: false, unique: true |
-| encrypted_password | string  | null: false, unique: true |
+| encrypted_password | string  | null: false               |
 | last_name          | string  | null: false               |
 | first_name         | string  | null: false               |
 | last_name_kana     | string  | null: false               |
@@ -19,7 +19,6 @@
 ## itemsテーブル
 | Column           | Type       | Option                   |
 | ---------------- | ---------- | ------------------------ |
-| image            |            | ActiveStorageで実装      |
 | name             | string     | null: false              |
 | info             | text       | null: false              |
 | price            | integer    | null: false              |
@@ -31,8 +30,8 @@
 | shipping_day_id  | integer    | null: false              |
 
 ### Association
+- has_one :buy_record
 - belongs_to :user
-- belongs_to :buy_record
 - belongs_to :category
 - belongs_to :item_status
 - belongs_to :shipping_cost
@@ -48,11 +47,11 @@
 | block         | string     | null: false                    |
 | building      | string     |                                |
 | phone_number  | string     | null: false                    |
-| by_user_id    | references | null: false, foreign_key: true |
+| by_record     | references | null: false, foreign_key: true |
 | prefecture_id | integer    | null: false                    |
 
 ### Association
-- belongs_to :address
+- belongs_to :buy_record
 
 
 ## buy_recordsテーブル
@@ -60,9 +59,8 @@
 |-------- | ---------- | ------------------------------ |
 | item    | references | null: false, foreign_key: true |
 | user    | references | null: false, foreign_key: true |
-| address | references | null: false, foreign_key: true |
 
 ### Association
-- has_one :item
-- has_one :user
+- belongs_to :item
+- belongs_to :user
 - has_one :address
